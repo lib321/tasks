@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<link rel="stylesheet" href="/css/tasks.css">
+
+<th:block th:replace="fragment/head_fragment :: head_fragment"></th:block>
+
+<body>
+
+<div class="main_div">
+    <div class="main">
+        <p class="task_description_main">Список задач</p>
+        <div class="table_main">
+            <table border="1">
+                <thead>
+                <tr>
+                    <th class="cell_padding">Id</th>
+                    <th class="cell_padding">Заголовок</th>
+                    <th class="cell_padding">Имя исполнителя</th>
+                    <th class="cell_padding">Дата создания</th>
+                    <th class="cell_padding">Дата выполнения</th>
+                    <th class="cell_padding">Статус</th>
+                    <th class="cell_padding">Приоритет</th>
+                    <th class="cell_padding">Действие</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="task : ${tasks}">
+                    <td class="cell_padding" th:text="${task.getId()}"></td>
+                    <td class="cell_padding">
+                        <a class="delete_button" th:href="@{'/tasks/details/' + ${task.id}}" th:text="${task.getTitle()}"></a>
+                    </td>
+                    <td class="cell_padding" th:text="${task.getAssignee()}"></td>
+                    <td class="cell_padding" th:text="${task.getCreationDate()}"></td>
+                    <td class="cell_padding" th:text="${task.getCompletedDate()}"></td>
+                    <td class="cell_padding" th:text="${task.getStatus()}"></td>
+                    <td class="cell_padding" th:text="${task.getPriority()}"></td>
+                    <td class="cell_padding">
+                        <div class="action_table">
+                            <div class="action_child_table" th:if="${!task.getStatus().contains('done')}">
+                                <form action="/tasks/complete" method="get">
+                                    <input type="hidden" name="taskId" th:value="${task.getId()}">
+                                    <button class="button_shadow" type="submit">Выполнить</button>
+                                </form>
+                            </div>
+                            <div>
+                                <form action="/tasks/delete" method="get">
+                                    <input type="hidden" name="taskId" th:value="${task.getId()}">
+                                    <button type="submit">Удалить</button>
+                                </form>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="new_task_form">
+        <p class="add_new_text">Добавить новую</p>
+        <div>
+            <form action="/tasks/create" method="get">
+                <div>
+                    <p>Заголовок</p>
+                    <input type="text" name="title" required>
+                </div>
+                <div>
+                    <p>Имя исполнителя</p>
+                    <input type="text" name="assignee" required>
+                </div>
+                <div>
+                    <p>Описание задачи</p>
+                    <textarea class="input_class" type="text" name="description" required></textarea>
+                </div>
+                <div>
+                    <p>Приоритет</p>
+                    <input type="text" name="priority" required>
+                </div>
+                <button class="margin_top" type="submit">Добавить</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<link rel="stylesheet" href="/css/tasks.css">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="margin_top margin_left">
+    <form action="/tasks/delete" method="post">
+        <input type="hidden" name="taskId" th:value="${task.getId()}">
+        <p>Вы действительно хотите удалить задачу?</p>
+        <button class="margin_top action_child_table" type="submit">Удалить</button>
+        <button type="submit"><a class="delete_button" th:href="@{/tasks}">Отменить</a></button>
+    </form>
+</div>
+
+</body>
+</html>

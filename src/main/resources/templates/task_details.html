@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<link rel="stylesheet" href="/css/tasks.css">
+
+<th:block th:replace="fragment/head_fragment :: head_fragment"></th:block>
+
+<body>
+
+<div class="main">
+<p class="task_description_main" th:text="${taskDetails.getTitle()}"></p>
+    <div class="main_div_details">
+        <div class="top_div_details">
+            <div class="left_top_div_details">
+                <div>
+                    <p><b>Исполнитель задачи:</b></p>
+                    <p><b>Дата создания:</b></p>
+                    <p><b>Дата выполнения:</b></p>
+                </div>
+                <div>
+                    <p th:text="${taskDetails.getAssignee()}"></p>
+                    <p th:text="${taskDetails.getCreationDate()}"></p>
+                    <p th:text="${taskDetails.getCompletedDate()}"></p>
+                </div>
+            </div>
+            <div class="right_top_div_details">
+                <div class="right_top_div_child">
+                    <div class="button_details">
+                        <form th:action="@{'/tasks/details/' + ${taskDetails.getId()} + '/edit'}" method="get">
+                            <button type="submit">Редактировать</button>
+                        </form>
+                    </div>
+                    <div class="button_details" th:if="${!taskDetails.getStatus().contains('done')}">
+                        <form action="/tasks/complete" method="get">
+                            <input type="hidden" name="taskId" th:value="${taskDetails.getId()}">
+                            <button type="submit">Выполнить</button>
+                        </form>
+                    </div>
+                    <div class="button_details">
+                        <form action="/tasks/delete" method="get">
+                            <input type="hidden" name="taskId" th:value="${taskDetails.getId()}">
+                            <button type="submit">Удалить</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="task_description"><b>Описание задачи</b></div>
+            </div>
+        </div>
+        <div class="task_details_description" style="padding: 20px">
+            <p th:text="${taskDetails.getDescription()}"></p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

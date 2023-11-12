@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<link rel="stylesheet" href="/css/tasks.css">
+<th:block th:replace="fragment/head_fragment :: head_fragment"></th:block>
+
+<body>
+<div class="main_div_stat table_main">
+    <table border="1px">
+        <tr>
+            <th class="cell_padding">Категория</th>
+            <th class="cell_padding">Процент</th>
+        </tr>
+        <tr>
+            <td class="cell_padding">Выполненные</td>
+            <td class="cell_padding" th:text="${percentageCompleted} + '%'"></td>
+        </tr>
+        <tr>
+            <td class="cell_padding">Новые</td>
+            <td class="cell_padding" th:text="${percentageNew} + '%'"></td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>

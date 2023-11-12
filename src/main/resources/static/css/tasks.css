@@ -1,0 +1,160 @@
+* {
+    margin: 0;
+    padding: 0;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 40px;
+}
+
+.main_div {
+    display: flex;
+    align-items: center;
+    margin-left: 20%;
+    margin-top: 30px;
+}
+
+.task_description_main {
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.main_div_details {
+    height: 500px;
+    width: 800px;
+    border: 2px solid black;
+}
+
+.top_div_details {
+    display: flex;
+    height: 150px;
+    border-bottom: 2px solid black;
+}
+
+.left_top_div_details {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    line-height: 35px;
+    width: 300px;
+    border-right: 2px solid black;
+}
+
+.right_top_div_details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 500px;
+    padding: 25px;
+}
+
+.right_top_div_child {
+    height: 100px;
+    display: flex;
+    padding-top: 20px;
+}
+
+.task_description {
+    font-size: 25px;
+}
+
+.delete_button {
+    text-decoration: none;
+    color: inherit;
+}
+
+.table_main {
+    height: 500px;
+}
+
+.cell_padding {
+    padding: 10px;
+}
+
+.action_table {
+    display: flex;
+    align-items: center;
+}
+
+.action_child_table {
+    margin-right: 10px;
+}
+
+.new_task_form {
+    font-weight: 600;
+    line-height: 23px;
+    margin-left: 5%;
+    padding-top: 20px;
+    height: 450px;
+}
+
+.add_new_text {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.margin_top {
+    margin-top: 10px;
+}
+
+.input_class {
+    height: 150px;
+    vertical-align: text-top;
+}
+
+.task_details_description {
+    word-wrap: break-word;
+}
+
+.button_details {
+    margin: 0 10px;
+}
+
+.task_description_edit {
+    margin-bottom: 5px;
+}
+
+.edit_description {
+    position: relative;
+}
+
+.button_position {
+    position: absolute;
+    top: 180px;
+    left: 20px;
+}
+
+.head_main {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    overflow: hidden;
+}
+
+.head_buttons {
+    text-decoration: none;
+    color: inherit;
+    padding: 16px;
+
+}
+
+.head_buttons:hover {
+    background: whitesmoke;
+}
+
+.margin_left {
+    margin-left: 20px;
+}
+
+.main_div_stat {
+    margin: 20px;
+}

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<link rel="stylesheet" href="/css/tasks.css">
+<th:block th:replace="fragment/head_fragment :: head_fragment"></th:block>
+
+<body>
+
+<div class="edit_description">
+    <form style="margin: 20px" th:action="@{'/tasks/details/' + ${task.getId()} + '/edit'}" method="post">
+        <p class="task_description_edit"><b>Описание задачи</b></p>
+        <textarea class="input_class" type="text" name="text" th:value="${task.getDescription()}"></textarea>
+        <button class="button_position" type="submit">Сохранить</button>
+    </form>
+</div>
+
+</body>
+</html>

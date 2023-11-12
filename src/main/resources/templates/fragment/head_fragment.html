@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<link rel="stylesheet" href="/css/tasks.css">
+
+<div class="head_main" th:fragment="head_fragment">
+  <div>
+    <a class="head_buttons" th:href="@{/tasks}">Все задачи</a>
+    <a class="head_buttons" th:href="@{'/tasks?filter=done'}">Выполненные</a>
+    <a class="head_buttons" th:href="@{'/tasks?filter=new'}">Новые</a>
+    <a class="head_buttons" th:href="@{'/tasks/statistics'}">Статистика</a>
+  </div>
+</div>
+
+</html>
