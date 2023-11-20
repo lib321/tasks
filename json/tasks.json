@@ -1,1 +1,34 @@
-[{"id":1,"title":"Контрольная работа 1","description":"опсание к к/р","status":"new","creationDate":[2023,11,12],"completedDate":null,"priority":"высокий","assignee":"Алексей М."},{"id":2,"title":"Задача 1","description":"описание к задаче 1","status":"new","creationDate":[2023,11,12],"completedDate":null,"priority":"средний","assignee":"Алексей М."},{"id":3,"title":"Задача 2","description":"Описание к задаче 2","status":"new","creationDate":[2023,11,12],"completedDate":null,"priority":"низкий","assignee":"Алексей Б."}]
+[
+  {
+    "id": 1,
+    "title": "Контрольная работа 1",
+    "description": "опсание к к/р",
+    "status": "new",
+    "creationDate": [
+      2023,
+      11,
+      12
+    ],
+    "completedDate": null,
+    "priority": "высокий",
+    "assignee": "Алексей М."
+  },
+  {
+    "id": 3,
+    "title": "Задача 2",
+    "description": "2222222222222222222222",
+    "status": "done",
+    "creationDate": [
+      2023,
+      11,
+      12
+    ],
+    "completedDate": [
+      2023,
+      11,
+      20
+    ],
+    "priority": "низкий",
+    "assignee": "Алексей Б."
+  }
+]

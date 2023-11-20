@@ -81,11 +81,13 @@ public class TaskService {
         Task task = getTaskById(taskId);
         task.setStatus("done");
         task.setCompletedDate(LocalDate.now());
+        saveTasks();
     }
 
     public void editTask(Long taskId, String text) {
         Task task = getTaskById(taskId);
         task.setDescription(text);
+        saveTasks();
     }
 
     public void deleteTask(Long taskId) {
