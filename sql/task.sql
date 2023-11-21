@@ -1,3 +1,5 @@
+drop table task;
+
 create table task
 (
     id             serial8,
@@ -11,5 +13,4 @@ create table task
     primary key (id)
 );
 
-drop table task;
 

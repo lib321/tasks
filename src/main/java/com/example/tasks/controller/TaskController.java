@@ -14,8 +14,11 @@ import java.util.Optional;
 @Controller
 public class TaskController {
 
-    @Autowired
-    public TaskService taskService;
+    public final TaskService taskService;
+
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
+    }
 
     @GetMapping("/tasks")
     public String getTasks(@RequestParam (required = false) String filter,

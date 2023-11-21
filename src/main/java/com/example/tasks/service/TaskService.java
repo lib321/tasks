@@ -1,6 +1,7 @@
 package com.example.tasks.service;
 
 import com.example.tasks.entity.Task;
+import com.example.tasks.objectMapper.TaskJsonMapper;
 import com.example.tasks.repository.TaskRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,52 +22,35 @@ import java.util.stream.Collectors;
 @Service
 public class TaskService {
 
-    private List<Task> tasks = new ArrayList<>();
+    private final TaskJsonMapper taskJsonMapper;
+
+    private final TaskRepository taskRepository;
+
+    private List<Task> tasks;
+
     private final String filePath = "json/tasks.json";
 
-    public TaskService() {
-        loadTasks();
+    @Autowired
+    public TaskService(TaskJsonMapper taskJsonMapper, TaskRepository taskRepository) {
+        this.taskJsonMapper = taskJsonMapper;
+        this.taskRepository = taskRepository;
     }
 
     public List<Task> getTasks() {
-        return tasks;
+        return taskRepository.findAll();
     }
 
     public Task getTaskById(Long id) {
-        return tasks.stream()
-                .filter(task -> task.getId().equals(id))
-                .findFirst()
-                .orElse(null);
-    }
-
-    public List<Task> getFilteredTasks(String filter) {
-        if (filter != null) {
-            if (filter.equals("new")) {
-                return tasks.stream()
-                        .filter(task -> task.getStatus().equals("new"))
-                        .collect(Collectors.toList());
-            } else {
-                return tasks.stream()
-                        .filter(task -> task.getStatus().equals("done"))
-                        .collect(Collectors.toList());
-            }
-        } else {
-            return tasks;
-        }
-    }
-
-    private Long generateUniqueId() {
-        if (!tasks.isEmpty()) {
-            List<Task> tasks1 = getTasks();
-            return tasks1.get(tasks1.size() - 1).getId() + 1;
-        } else {
-            return 1L;
-        }
+        return taskRepository.findTaskById(id);
     }
 
     public void addTask(String title, String assignee, String description, String priority) {
         Task task = new Task();
-        task.setId(generateUniqueId());
+        if (tasks != null) {
+            tasks = taskJsonMapper.readTasksFromFile(filePath);
+        } else {
+            tasks = new ArrayList<>();
+        }
         task.setTitle(title);
         task.setAssignee(assignee);
         task.setStatus("new");
@@ -74,35 +58,50 @@ public class TaskService {
         task.setDescription(description);
         task.setPriority(priority);
         tasks.add(task);
-        saveTasks();
+        taskRepository.save(task);
+        taskJsonMapper.writeTasksToFile(tasks, filePath);
     }
 
-    public void completeTask(Long taskId) {
-        Task task = getTaskById(taskId);
+    public void editTask(Long id, String text) {
+        Task task = taskRepository.findTaskById(id);
+        tasks = taskJsonMapper.readTasksFromFile(filePath);
+        task.setDescription(text);
+        taskRepository.save(task);
+        tasks.removeIf(t -> t.getId().equals(id));
+        tasks.add(task);
+        taskJsonMapper.writeTasksToFile(tasks, filePath);
+    }
+
+    public void deleteTask(Long id) {
+        taskRepository.deleteById(id);
+        tasks = taskJsonMapper.readTasksFromFile(filePath);
+        tasks.removeIf(t -> t.getId().equals(id));
+        taskJsonMapper.writeTasksToFile(tasks, filePath);
+    }
+
+    public List<Task> getFilteredTasks(String filter) {
+        if (filter != null) {
+            return taskRepository.findTaskByStatus(filter);
+        } else {
+            return taskRepository.findAll();
+        }
+    }
+
+    public void completeTask(Long id) {
+        Task task = taskRepository.findTaskById(id);
+        tasks = taskJsonMapper.readTasksFromFile(filePath);
         task.setStatus("done");
         task.setCompletedDate(LocalDate.now());
-        saveTasks();
-    }
-
-    public void editTask(Long taskId, String text) {
-        Task task = getTaskById(taskId);
-        task.setDescription(text);
-        saveTasks();
-    }
-
-    public void deleteTask(Long taskId) {
-        Task task = getTaskById(taskId);
-        List<Task> tasksList = getTasks();
-        tasksList.remove(task);
-        saveTasks();
+        taskRepository.save(task);
+        tasks.removeIf(t -> t.getId().equals(id));
+        tasks.add(task);
+        taskJsonMapper.writeTasksToFile(tasks, filePath);
     }
 
     public Map<String, Integer> getStatistics() {
-        long total = tasks.size();
-        long completedTasks = tasks.stream()
-                .filter(task -> task.getStatus().equals("done")).count();
-        long newTasks = tasks.stream()
-                .filter(task -> task.getStatus().equals("new")).count();
+        long total = taskRepository.count();
+        long completedTasks = taskRepository.countByStatusIgnoreCase("Done");
+        long newTasks = taskRepository.countByStatusIgnoreCase("New");
         double percentageCompleted = (completedTasks * 100.0) / total;
         double percentageNew = (newTasks * 100.0) / total;
         Map<String, Integer> statistics = new HashMap<>();
@@ -111,40 +110,5 @@ public class TaskService {
         statistics.put("done", roundedCompletedPercentage);
         statistics.put("new", roundedNewPercentage);
         return statistics;
-    }
-
-    private void loadTasks() {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-
-            objectMapper.registerModule(new JavaTimeModule());
-
-            File file = new File(filePath);
-
-            if (!file.exists()) {
-                tasks = new ArrayList<>();
-                saveTasks();
-            } else {
-                CollectionType typeReference =
-                        TypeFactory.defaultInstance().constructCollectionType(List.class, Task.class);
-
-                tasks = objectMapper.readValue(file, typeReference);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void saveTasks() {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-
-            objectMapper.registerModule(new JavaTimeModule());
-
-            objectMapper.writeValue(new File(filePath), tasks);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
     }
 }
