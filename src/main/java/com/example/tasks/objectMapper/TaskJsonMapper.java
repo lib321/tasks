@@ -4,6 +4,7 @@ import com.example.tasks.entity.Task;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
@@ -15,8 +16,9 @@ import java.util.List;
 public class TaskJsonMapper {
     private final ObjectMapper objectMapper;
 
-    public TaskJsonMapper() {
-        this.objectMapper = new ObjectMapper();
+    @Autowired
+    public TaskJsonMapper(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
     }
 
     public List<Task> readTasksFromFile(String fileName) {

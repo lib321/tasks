@@ -14,8 +14,9 @@ import java.util.Optional;
 @Controller
 public class TaskController {
 
-    public final TaskService taskService;
+    private final TaskService taskService;
 
+    @Autowired
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
     }
